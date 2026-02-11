@@ -8,13 +8,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/assets")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://localhost:3000")
 public class AssetController {
 
     private final AssetRepository assetRepository;
 
     public AssetController(AssetRepository assetRepository) {
         this.assetRepository = assetRepository;
+    }
+
+    // ✅ NEW – Root endpoint (added only this)
+    @GetMapping("/")
+    public String home() {
+        return "AssetPro Backend is Running Successfully!";
     }
 
     // READ – get all assets
