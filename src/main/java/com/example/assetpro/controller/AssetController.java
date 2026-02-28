@@ -7,7 +7,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/assets")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://assetmanagementfrontend-k6lb.vercel.app")
 public class AssetController {
 
     private final AssetRepository assetRepository;
