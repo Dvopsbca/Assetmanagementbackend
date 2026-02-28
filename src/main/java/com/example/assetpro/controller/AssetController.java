@@ -1,5 +1,4 @@
 package com.example.assetpro.controller;
-
 import com.example.assetpro.model.Asset;
 import com.example.assetpro.repository.AssetRepository;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +7,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/assets")
-@CrossOrigin(origins = "https://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AssetController {
 
     private final AssetRepository assetRepository;
