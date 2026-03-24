@@ -1,4 +1,5 @@
 package com.example.assetpro.controller;
+
 import com.example.assetpro.model.Asset;
 import com.example.assetpro.repository.AssetRepository;
 import org.springframework.web.bind.annotation.*;
@@ -7,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/assets")
-@CrossOrigin(origins = "https://assetmanagementfrontend-k6lb.vercel.app")
+@CrossOrigin(origins = "*")   // ✅ IMPORTANT FIX (allows Azure + all domains)
 public class AssetController {
 
     private final AssetRepository assetRepository;
@@ -16,28 +17,30 @@ public class AssetController {
         this.assetRepository = assetRepository;
     }
 
-    // ✅ NEW – Root endpoint (added only this)
+    // ✅ Root check
     @GetMapping("/")
     public String home() {
         return "AssetPro Backend is Running Successfully!";
     }
 
-    // READ – get all assets
+    // ✅ READ – get all assets
     @GetMapping
     public List<Asset> getAllAssets() {
         return assetRepository.findAll();
     }
 
-    // CREATE – add new asset
+    // ✅ CREATE – add new asset
     @PostMapping
     public Asset createAsset(@RequestBody Asset asset) {
         return assetRepository.save(asset);
     }
 
-    // UPDATE – update asset
+    // ✅ UPDATE – update asset
     @PutMapping("/{id}")
     public Asset updateAsset(@PathVariable Long id, @RequestBody Asset asset) {
-        Asset existing = assetRepository.findById(id).orElseThrow();
+
+        Asset existing = assetRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Asset not found with id: " + id));
 
         existing.setAssetName(asset.getAssetName());
         existing.setAssetType(asset.getAssetType());
@@ -55,9 +58,10 @@ public class AssetController {
         return assetRepository.save(existing);
     }
 
-    // DELETE – delete asset
+    // ✅ DELETE – delete asset
     @DeleteMapping("/{id}")
-    public void deleteAsset(@PathVariable Long id) {
+    public String deleteAsset(@PathVariable Long id) {
         assetRepository.deleteById(id);
+        return "Asset deleted successfully";
     }
 }
